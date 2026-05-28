@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AaronAI — Servicios de Inteligencia Artificial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #e0e0e0;
+      overflow-x: hidden;
+    }
+
+    canvas#particleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    .nav-cta {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      color: #fff !important;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 20px 80px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border: 1px solid rgba(110, 142, 251, 0.3);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: #6e8efb;
+      margin-bottom: 24px;
+      background: rgba(110, 142, 251, 0.08);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      max-width: 800px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: #888;
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(110, 142, 251, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ccc;
+      padding: 14px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.2s;
+    }
+
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
+
+    /* SECCIONES */
+    section {
+      padding: 100px 60px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section-title p {
+      color: #777;
+      font-size: 1.05rem;
+    }
+
+    /* SERVICIOS */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .service-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 36px 28px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .service-card:hover {
+      border-color: rgba(110, 142, 251, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(110, 142, 251, 0.15), rgba(167, 119, 227, 0.15));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      color: #777;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* PRECIOS */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .price-card.featured {
+      border-color: rgba(110, 142, 251, 0.4);
+      background: rgba(110, 142, 251, 0.05);
+    }
+
+    .price-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .price-tag {
+      font-size: 3rem;
+      font-weight: 800;
+      margin: 16px 0 4px;
+    }
+
+    .price-tag span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #666;
+    }
+
+    .price-card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .price-card .desc {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .price-features {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+
+    .price-features li {
+      padding: 8px 0;
+      font-size: 0.9rem;
+      color: #aaa;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .price-features li::before {
+      content: '✓';
+      color: #6e8efb;
+      font-weight: 700;
+    }
+
+    .price-btn {
+      display: inline-block;
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .price-btn.primary {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      color: #fff;
+    }
+
+    .price-btn.primary:hover {
+      box-shadow: 0 8px 30px rgba(110, 142, 251, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .price-btn.outline {
+      background: transparent;
+      color: #ccc;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .price-btn.outline:hover { background: rgba(255, 255, 255, 0.05); }
+
+    /* ABOUT */
+    .about-content {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-content p {
+      color: #888;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin-top: 40px;
+    }
+
+    .stat h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat p {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    /* CONTACT */
+    .contact-form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 14px 18px;
+      color: #e0e0e0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: rgba(110, 142, 251, 0.5);
+    }
+
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #444;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      section { padding: 60px 24px; }
+      .hero { padding: 100px 20px 60px; }
+      .hero-buttons { flex-direction: column; }
+      .stats { flex-direction: column; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particleCanvas"></canvas>
+
+  <div class="content">
+    <nav>
+      <div class="logo">AaronAI</div>
+      <ul class="nav-links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#precios">Precios</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#contacto" class="nav-cta">Contactar</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-badge">⚡ Potenciado por Inteligencia Artificial</div>
+      <h1>Transformá tu negocio con <span>soluciones de IA</span></h1>
+      <p>Implementamos agentes inteligentes, automatizaciones y herramientas personalizadas que escalan tu negocio al siguiente nivel.</p>
+      <div class="hero-buttons">
+        <a href="#precios" class="btn-primary">Ver planes</a>
+        <a href="#contacto" class="btn-secondary">Hablar con nosotros</a>
+      </div>
+    </section>
+
+    <section id="servicios">
+      <div class="section-title">
+        <h2>¿Qué hacemos?</h2>
+        <p>Soluciones de IA adaptadas a tus necesidades</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🤖</div>
+          <h3>Agentes Conversacionales</h3>
+          <p>Chatbots inteligentes que entienden contexto, responden consultas complejas y escalan automáticamente al equipo humano.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">⚙️</div>
+          <h3>Automatización de Procesos</h3>
+          <p>Flujos automatizados que eliminan tareas repetitivas, reducen errores y liberan tiempo para tu equipo.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📊</div>
+          <h3>Análisis de Datos con IA</h3>
+          <p>Transformamos datos crudos en insights accionables usando modelos de machine learning personalizados.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔗</div>
+          <h3>Integraciones</h3>
+          <p>Conectamos IA con tus herramientas existentes: CRM, ERP, WhatsApp, email y más.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="precios">
+      <div class="section-title">
+        <h2>Planes y precios</h2>
+        <p>Soluciones flexibles según la complejidad de tu proyecto</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Básico</h3>
+          <p class="desc">Proyectos simples y directos</p>
+          <div class="price-tag">$50 <span>USD</span></div>
+          <ul class="price-features">
+            <li>Chatbot simple con respuestas guiadas</li>
+            <li>Hasta 50 respuestas personalizadas</li>
+            <li>Integración con 1 plataforma</li>
+            <li>Soporte por 15 días</li>
+            <li>Entrega en 3-5 días</li>
+          </ul>
+          <a href="#contacto" class="price-btn outline">Empezar</a>
+        </div>
+        <div class="price-card featured">
+          <h3>Profesional</h3>
+          <p class="desc">IA completa con múltiples capacidades</p>
+          <div class="price-tag">$150 <span>USD</span></div>
+          <ul class="price-features">
+            <li>Agente conversacional con IA avanzada</li>
+            <li>Respuestas ilimitadas y contextualizadas</li>
+            <li>Múltiples integraciones</li>
+            <li>Automatización de procesos incluida</li>
+            <li>Soporte por 30 días</li>
+            <li>Entrega en 7-10 días</li>
+          </ul>
+          <a href="#contacto" class="price-btn primary">Empezar</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="nosotros">
+      <div class="section-title">
+        <h2>Sobre nosotros</h2>
+      </div>
+      <div class="about-content">
+        <p>Somos un equipo enfocado en hacer que la inteligencia artificial sea accesible para cualquier negocio. No vendemos promesas vacías — implementamos soluciones reales que generan resultados medibles.</p>
+        <p>Cada proyecto es único. Analizamos tu caso de uso, diseñamos la solución y la implementamos con los mejores estándares de calidad.</p>
+        <div class="stats">
+          <div class="stat">
+            <h3>50+</h3>
+            <p>Proyectos entregados</p>
+          </div>
+          <div class="stat">
+            <h3>98%</h3>
+            <p>Clientes satisfechos</p>
+          </div>
+          <div class="stat">
+            <h3>24h</h3>
+            <p>Tiempo de respuesta</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto">
+      <div class="section-title">
+        <h2>Contactanos</h2>
+        <p>Cuentanos sobre tu proyecto y te respondemos en menos de 24 horas</p>
+      </div>
+      <form class="contact-form" onsubmit="event.preventDefault(); alert('¡Mensaje enviado! Te contactaremos pronto.');">
+        <input type="text" placeholder="Tu nombre" required>
+        <input type="email" placeholder="Tu email" required>
+        <textarea placeholder="Contanos sobre tu proyecto..."></textarea>
+        <button type="submit" class="btn-primary">Enviar mensaje</button>
+      </form>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 AaronAI. Todos los derechos reservados.</p>
+    </footer>
+  </div>
+
+  <script src="particles.js"></script>
+</body>
+</html>
