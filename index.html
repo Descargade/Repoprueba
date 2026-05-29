@@ -16,7 +16,7 @@
       overflow-x: hidden;
     }
 
-    canvas#particleCanvas {
+    spline-viewer {
       position: fixed;
       top: 0;
       left: 0;
@@ -414,7 +414,7 @@
   </style>
 </head>
 <body>
-  <canvas id="particleCanvas"></canvas>
+  <spline-viewer url="https://prod.spline.design/ba53829f-ad48-4917-8f81-26676a7048c9/scene.splinecode"></spline-viewer>
 
   <div class="content">
     <nav>
@@ -544,6 +544,6 @@
     </footer>
   </div>
 
-  <script src="particles.js"></script>
+  <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
 </body>
 </html>
