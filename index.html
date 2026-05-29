@@ -18,137 +18,266 @@
 
     #robot-bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 0;
       display: flex;
       align-items: center;
       justify-content: center;
+      perspective: 1200px;
     }
 
-    .robot {
+    .robot-container {
       position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transform: translateY(10%);
+      transform-style: preserve-3d;
+      transform: translateY(8%);
     }
 
+    /* HEAD */
     .robot-head {
       position: relative;
-      width: 180px;
-      height: 200px;
-      background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%);
-      border-radius: 90px 90px 70px 70px;
-      box-shadow: 0 0 60px rgba(100, 140, 255, 0.15), inset 0 -20px 40px rgba(0,0,0,0.5);
-      transition: transform 0.1s ease-out;
-      transform-origin: center bottom;
+      width: 200px;
+      height: 220px;
+      margin: 0 auto;
+      transform-style: preserve-3d;
+      transition: transform 0.08s ease-out;
     }
 
-    .robot-head::before {
-      content: '';
+    .head-main {
       position: absolute;
-      top: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 20px;
-      background: linear-gradient(180deg, #2a2a4e, #1a1a2e);
-      border-radius: 30px 30px 0 0;
-    }
-
-    .robot-face {
-      position: absolute;
-      top: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 140px;
-      height: 80px;
-      background: linear-gradient(180deg, #111122 0%, #0a0a18 100%);
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 30px;
-      box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
-    }
-
-    .eye {
-      width: 36px;
-      height: 20px;
-      background: radial-gradient(ellipse at center, #00d4ff 0%, #0088cc 40%, #004466 80%, transparent 100%);
-      border-radius: 50%;
-      box-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(0, 212, 255, 0.3);
-      position: relative;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(160deg, #2a2a3a 0%, #15151f 30%, #0a0a12 60%, #1a1a28 100%);
+      border-radius: 100px 100px 80px 80px;
+      box-shadow:
+        inset 0 2px 0 rgba(255,255,255,0.08),
+        inset 0 -30px 60px rgba(0,0,0,0.6),
+        0 0 80px rgba(0,0,0,0.9),
+        0 20px 60px rgba(0,0,0,0.8);
       overflow: hidden;
     }
 
-    .eye::after {
+    .head-main::before {
       content: '';
       position: absolute;
-      top: 50%;
+      top: -20%;
+      left: -20%;
+      width: 60%;
+      height: 60%;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.07) 0%, transparent 70%);
+      transform: rotate(-30deg);
+    }
+
+    .head-main::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 45%;
+      background: linear-gradient(180deg, rgba(60,60,90,0.15) 0%, transparent 100%);
+      border-radius: 100px 100px 0 0;
+    }
+
+    .head-top {
+      position: absolute;
+      top: -12px;
       left: 50%;
-      transform: translate(-50%, -50%);
-      width: 8px;
-      height: 8px;
-      background: #fff;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 30px;
+      background: linear-gradient(180deg, #252535 0%, #1a1a28 100%);
+      border-radius: 35px 35px 0 0;
+      box-shadow: inset 0 2px 0 rgba(255,255,255,0.05);
+    }
+
+    .head-top::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background: #00d4ff;
       border-radius: 50%;
-      box-shadow: 0 0 6px #fff;
+      box-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
+    }
+
+    /* FACE PANEL */
+    .face-panel {
+      position: absolute;
+      top: 45px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 90px;
+      background: linear-gradient(180deg, #0c0c18 0%, #060610 50%, #0a0a16 100%);
+      border-radius: 25px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        inset 0 0 30px rgba(0,0,0,0.8),
+        0 0 15px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 35px;
+      overflow: hidden;
+    }
+
+    .face-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(100,140,255,0.15), transparent);
+    }
+
+    /* EYES */
+    .eye {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      background: radial-gradient(ellipse at 50% 60%, #00e5ff 0%, #0099cc 30%, #004466 60%, #001a2e 80%, transparent 100%);
+      border-radius: 50%;
+      box-shadow:
+        0 0 15px rgba(0, 212, 255, 0.7),
+        0 0 30px rgba(0, 212, 255, 0.4),
+        0 0 60px rgba(0, 212, 255, 0.2),
+        inset 0 -2px 4px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    .eye::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 8px;
+      background: linear-gradient(180deg, rgba(0,229,255,0.4), transparent);
+      border-radius: 50%;
     }
 
     .pupil {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 10px;
-      height: 10px;
-      background: radial-gradient(circle, #fff 0%, #00d4ff 60%, transparent 100%);
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle, #ffffff 0%, #b0eaff 30%, #00d4ff 60%, transparent 100%);
       border-radius: 50%;
-      box-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
+      box-shadow: 0 0 8px #fff, 0 0 15px rgba(0,212,255,0.8);
       transform: translate(-50%, -50%);
+      transition: transform 0.06s ease-out;
     }
 
+    .eye-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 40px;
+      background: radial-gradient(ellipse, rgba(0,212,255,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* MOUTH */
+    .mouth {
+      position: absolute;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(0,212,255,0.3), transparent);
+      border-radius: 2px;
+    }
+
+    /* NECK */
     .robot-neck {
-      width: 50px;
-      height: 30px;
-      background: linear-gradient(180deg, #1a1a2e, #0d0d1a);
-      border-radius: 0 0 10px 10px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+      width: 60px;
+      height: 35px;
+      margin: -5px auto 0;
+      background: linear-gradient(180deg, #1a1a28 0%, #12121e 50%, #0e0e18 100%);
+      border-radius: 0 0 15px 15px;
+      box-shadow:
+        inset 0 2px 4px rgba(0,0,0,0.5),
+        0 10px 30px rgba(0,0,0,0.6);
+      position: relative;
     }
 
+    .neck-joint {
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 16px;
+      background: linear-gradient(180deg, #18182a, #10101c);
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    /* BODY */
     .robot-body {
       position: relative;
-      width: 220px;
-      height: 260px;
-      background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 50%, #0a0a15 100%);
-      border-radius: 30px 30px 20px 20px;
-      box-shadow: 0 10px 60px rgba(0,0,0,0.8), 0 0 80px rgba(100, 140, 255, 0.08);
+      width: 240px;
+      height: 280px;
+      margin: 10px auto 0;
+      background: linear-gradient(170deg, #1e1e30 0%, #141422 25%, #0c0c18 50%, #161626 75%, #0a0a14 100%);
+      border-radius: 35px 35px 25px 25px;
+      box-shadow:
+        inset 0 2px 0 rgba(255,255,255,0.06),
+        inset 0 -20px 50px rgba(0,0,0,0.5),
+        0 30px 80px rgba(0,0,0,0.9),
+        0 0 100px rgba(0,0,0,0.5);
       overflow: hidden;
     }
 
-    .robot-body::before {
-      content: '';
+    .body-highlight {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 50%;
-      background: linear-gradient(180deg, rgba(30, 30, 60, 0.4), transparent);
-      border-radius: 30px 30px 0 0;
+      height: 40%;
+      background: linear-gradient(180deg, rgba(50,50,80,0.12) 0%, transparent 100%);
+      border-radius: 35px 35px 0 0;
     }
 
+    .body-reflection {
+      position: absolute;
+      top: -50%;
+      left: -20%;
+      width: 60%;
+      height: 100%;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.03) 0%, transparent 60%);
+      transform: rotate(-20deg);
+    }
+
+    /* CHEST LOGO */
     .chest-logo {
       position: absolute;
-      top: 40px;
+      top: 45px;
       left: 50%;
       transform: translateX(-50%);
-      width: 50px;
-      height: 50px;
+      width: 55px;
+      height: 55px;
       border-radius: 50%;
-      background: conic-gradient(from 0deg, #ff6b9d, #c44dff, #6e8efb, #00d4ff, #ff6b9d);
-      box-shadow: 0 0 30px rgba(110, 142, 251, 0.5);
+      background: conic-gradient(from 0deg, #ff6b9d, #c44dff, #6e8efb, #00d4ff, #00ff88, #ff6b9d);
+      box-shadow:
+        0 0 25px rgba(110, 142, 251, 0.6),
+        0 0 50px rgba(110, 142, 251, 0.3),
+        inset 0 0 15px rgba(0,0,0,0.3);
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    .chest-logo::before {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px; right: 3px; bottom: 3px;
+      background: conic-gradient(from 120deg, #ff6b9d, #c44dff, #6e8efb, #00d4ff, #00ff88, #ff6b9d);
+      border-radius: 50%;
       animation: logoSpin 8s linear infinite;
     }
 
@@ -158,64 +287,187 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       background: #0d0d1a;
       border-radius: 50%;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
     }
 
     @keyframes logoSpin {
-      from { transform: translateX(-50%) rotate(0deg); }
-      to { transform: translateX(-50%) rotate(360deg); }
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
+    @keyframes logoPulse {
+      0%, 100% { box-shadow: 0 0 25px rgba(110,142,251,0.6), 0 0 50px rgba(110,142,251,0.3); }
+      50% { box-shadow: 0 0 35px rgba(110,142,251,0.8), 0 0 70px rgba(110,142,251,0.4); }
+    }
+
+    /* CHEST DETAILS */
     .chest-lines {
       position: absolute;
-      top: 100px;
+      top: 115px;
       left: 50%;
       transform: translateX(-50%);
-      width: 120px;
+      width: 130px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     .chest-line {
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(100, 140, 255, 0.3), transparent);
-      border-radius: 1px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(100,140,255,0.2), transparent);
     }
 
-    .robot-shoulders {
+    .chest-line:nth-child(odd) { width: 80%; margin: 0 auto; }
+    .chest-line:nth-child(even) { width: 60%; margin: 0 auto; }
+
+    /* CHEST PANEL */
+    .chest-panel {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 50px;
+      background: linear-gradient(180deg, #0e0e1c, #080814);
+      border-radius: 10px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.03),
+        inset 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .chest-panel::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(0,212,255,0.2), transparent);
+    }
+
+    .chest-panel::after {
+      content: '';
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(110,142,251,0.2), transparent);
+    }
+
+    /* SHOULDERS & ARMS */
+    .robot-arms {
+      position: absolute;
+      top: 235px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 340px;
       display: flex;
       justify-content: space-between;
-      width: 320px;
-      margin-top: -240px;
       pointer-events: none;
     }
 
     .arm {
-      width: 45px;
-      height: 180px;
-      background: linear-gradient(180deg, #1a1a2e, #0d0d1a, #0a0a15);
-      border-radius: 22px;
-      box-shadow: 0 5px 30px rgba(0,0,0,0.6);
+      position: relative;
+      width: 50px;
     }
 
-    .arm-top {
-      height: 50px;
-      background: linear-gradient(180deg, #222244, #1a1a2e);
-      border-radius: 22px 22px 0 0;
+    .shoulder {
+      width: 50px;
+      height: 55px;
+      background: linear-gradient(160deg, #222238 0%, #161628 40%, #0e0e1c 100%);
+      border-radius: 25px 25px 20px 20px;
+      box-shadow:
+        inset 0 2px 0 rgba(255,255,255,0.06),
+        inset 0 -10px 20px rgba(0,0,0,0.4),
+        0 5px 20px rgba(0,0,0,0.6);
+      position: relative;
     }
 
-    @media (max-width: 768px) {
-      .robot-head { width: 120px; height: 140px; border-radius: 60px 60px 50px 50px; }
-      .robot-face { width: 90px; height: 55px; top: 40px; gap: 20px; }
-      .eye { width: 24px; height: 14px; }
-      .robot-body { width: 150px; height: 180px; }
-      .robot-shoulders { width: 220px; margin-top: -170px; }
-      .arm { width: 30px; height: 120px; }
-      .chest-logo { width: 35px; height: 35px; top: 25px; }
+    .shoulder::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 15px;
+      height: 20px;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.04) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .shoulder-joint {
+      width: 30px;
+      height: 30px;
+      margin: -5px auto 0;
+      background: radial-gradient(circle at 40% 40%, #2a2a44, #14142a, #0a0a1a);
+      border-radius: 50%;
+      box-shadow:
+        inset 0 2px 0 rgba(255,255,255,0.08),
+        0 3px 10px rgba(0,0,0,0.5);
+    }
+
+    .upper-arm {
+      width: 38px;
+      height: 100px;
+      margin: -3px auto 0;
+      background: linear-gradient(180deg, #1a1a2e 0%, #121222 40%, #0c0c1a 80%, #161628 100%);
+      border-radius: 19px;
+      box-shadow:
+        inset 2px 0 4px rgba(255,255,255,0.03),
+        inset -2px 0 4px rgba(0,0,0,0.3),
+        0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .elbow-joint {
+      width: 28px;
+      height: 28px;
+      margin: -3px auto 0;
+      background: radial-gradient(circle at 40% 40%, #262640, #12122a, #0a0a18);
+      border-radius: 50%;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .forearm {
+      width: 32px;
+      height: 90px;
+      margin: -2px auto 0;
+      background: linear-gradient(180deg, #181830 0%, #101024 50%, #0a0a1c 100%);
+      border-radius: 16px;
+      box-shadow:
+        inset 1px 0 3px rgba(255,255,255,0.03),
+        0 5px 15px rgba(0,0,0,0.4);
+    }
+
+    .hand {
+      width: 26px;
+      height: 30px;
+      margin: -2px auto 0;
+      background: linear-gradient(180deg, #1a1a32, #101028, #0c0c20);
+      border-radius: 8px 8px 13px 13px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        0 3px 10px rgba(0,0,0,0.4);
+    }
+
+    /* AMBIENT GLOW */
+    .ambient-glow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,100,200,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .content {
@@ -226,15 +478,14 @@
     /* NAVBAR */
     nav {
       position: fixed;
-      top: 0;
-      width: 100%;
+      top: 0; width: 100%;
       padding: 20px 60px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       backdrop-filter: blur(10px);
-      background: rgba(0, 0, 0, 0.3);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(0,0,0,0.4);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
       z-index: 100;
     }
 
@@ -246,11 +497,7 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 30px;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 30px; list-style: none; }
 
     .nav-links a {
       color: #aaa;
@@ -270,7 +517,6 @@
       font-weight: 600;
     }
 
-    /* HERO */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -284,12 +530,12 @@
     .hero-badge {
       display: inline-block;
       padding: 6px 16px;
-      border: 1px solid rgba(110, 142, 251, 0.3);
+      border: 1px solid rgba(110,142,251,0.3);
       border-radius: 50px;
       font-size: 0.8rem;
       color: #6e8efb;
       margin-bottom: 24px;
-      background: rgba(110, 142, 251, 0.08);
+      background: rgba(110,142,251,0.08);
     }
 
     .hero h1 {
@@ -314,10 +560,7 @@
       margin-bottom: 40px;
     }
 
-    .hero-buttons {
-      display: flex;
-      gap: 16px;
-    }
+    .hero-buttons { display: flex; gap: 16px; }
 
     .btn-primary {
       background: linear-gradient(135deg, #6e8efb, #a777e3);
@@ -334,42 +577,28 @@
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(110, 142, 251, 0.3);
+      box-shadow: 0 8px 30px rgba(110,142,251,0.3);
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.05);
       color: #ccc;
       padding: 14px 32px;
       border-radius: 10px;
       text-decoration: none;
       font-weight: 600;
       font-size: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255,255,255,0.1);
       transition: background 0.2s;
     }
 
-    .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
 
-    section {
-      padding: 100px 60px;
-    }
+    section { padding: 100px 60px; }
 
-    .section-title {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .section-title h2 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .section-title p {
-      color: #777;
-      font-size: 1.05rem;
-    }
+    .section-title { text-align: center; margin-bottom: 60px; }
+    .section-title h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 12px; }
+    .section-title p { color: #777; font-size: 1.05rem; }
 
     .services-grid {
       display: grid;
@@ -380,23 +609,22 @@
     }
 
     .service-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
       border-radius: 16px;
       padding: 36px 28px;
       transition: border-color 0.3s, transform 0.3s;
     }
 
     .service-card:hover {
-      border-color: rgba(110, 142, 251, 0.3);
+      border-color: rgba(110,142,251,0.3);
       transform: translateY(-4px);
     }
 
     .service-icon {
-      width: 52px;
-      height: 52px;
+      width: 52px; height: 52px;
       border-radius: 12px;
-      background: linear-gradient(135deg, rgba(110, 142, 251, 0.15), rgba(167, 119, 227, 0.15));
+      background: linear-gradient(135deg, rgba(110,142,251,0.15), rgba(167,119,227,0.15));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -404,17 +632,8 @@
       margin-bottom: 20px;
     }
 
-    .service-card h3 {
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .service-card p {
-      color: #777;
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
+    .service-card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 10px; }
+    .service-card p { color: #777; font-size: 0.9rem; line-height: 1.6; }
 
     .pricing-grid {
       display: grid;
@@ -425,8 +644,8 @@
     }
 
     .price-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
       border-radius: 16px;
       padding: 40px 32px;
       text-align: center;
@@ -434,57 +653,30 @@
     }
 
     .price-card.featured {
-      border-color: rgba(110, 142, 251, 0.4);
-      background: rgba(110, 142, 251, 0.05);
+      border-color: rgba(110,142,251,0.4);
+      background: rgba(110,142,251,0.05);
     }
 
     .price-card:hover { transform: translateY(-4px); }
 
-    .price-tag {
-      font-size: 3rem;
-      font-weight: 800;
-      margin: 16px 0 4px;
-    }
+    .price-tag { font-size: 3rem; font-weight: 800; margin: 16px 0 4px; }
+    .price-tag span { font-size: 1rem; font-weight: 400; color: #666; }
+    .price-card h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; }
+    .price-card .desc { color: #666; font-size: 0.9rem; margin-bottom: 24px; }
 
-    .price-tag span {
-      font-size: 1rem;
-      font-weight: 400;
-      color: #666;
-    }
-
-    .price-card h3 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .price-card .desc {
-      color: #666;
-      font-size: 0.9rem;
-      margin-bottom: 24px;
-    }
-
-    .price-features {
-      list-style: none;
-      text-align: left;
-      margin-bottom: 28px;
-    }
+    .price-features { list-style: none; text-align: left; margin-bottom: 28px; }
 
     .price-features li {
       padding: 8px 0;
       font-size: 0.9rem;
       color: #aaa;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .price-features li::before {
-      content: '✓';
-      color: #6e8efb;
-      font-weight: 700;
-    }
+    .price-features li::before { content: '✓'; color: #6e8efb; font-weight: 700; }
 
     .price-btn {
       display: inline-block;
@@ -505,51 +697,31 @@
     }
 
     .price-btn.primary:hover {
-      box-shadow: 0 8px 30px rgba(110, 142, 251, 0.3);
+      box-shadow: 0 8px 30px rgba(110,142,251,0.3);
       transform: translateY(-2px);
     }
 
     .price-btn.outline {
       background: transparent;
       color: #ccc;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255,255,255,0.15);
     }
 
-    .price-btn.outline:hover { background: rgba(255, 255, 255, 0.05); }
+    .price-btn.outline:hover { background: rgba(255,255,255,0.05); }
 
-    .about-content {
-      max-width: 700px;
-      margin: 0 auto;
-      text-align: center;
-    }
+    .about-content { max-width: 700px; margin: 0 auto; text-align: center; }
+    .about-content p { color: #888; font-size: 1.05rem; line-height: 1.8; margin-bottom: 20px; }
 
-    .about-content p {
-      color: #888;
-      font-size: 1.05rem;
-      line-height: 1.8;
-      margin-bottom: 20px;
-    }
-
-    .stats {
-      display: flex;
-      justify-content: center;
-      gap: 60px;
-      margin-top: 40px;
-    }
+    .stats { display: flex; justify-content: center; gap: 60px; margin-top: 40px; }
 
     .stat h3 {
-      font-size: 2rem;
-      font-weight: 700;
+      font-size: 2rem; font-weight: 700;
       background: linear-gradient(135deg, #6e8efb, #a777e3);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .stat p {
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 4px;
-    }
+    .stat p { font-size: 0.85rem; color: #666; margin-top: 4px; }
 
     .contact-form {
       max-width: 500px;
@@ -561,8 +733,8 @@
 
     .contact-form input,
     .contact-form textarea {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 10px;
       padding: 14px 18px;
       color: #e0e0e0;
@@ -573,9 +745,7 @@
     }
 
     .contact-form input:focus,
-    .contact-form textarea:focus {
-      border-color: rgba(110, 142, 251, 0.5);
-    }
+    .contact-form textarea:focus { border-color: rgba(110,142,251,0.5); }
 
     .contact-form textarea { resize: vertical; min-height: 120px; }
 
@@ -584,7 +754,7 @@
       padding: 40px 20px;
       color: #444;
       font-size: 0.85rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      border-top: 1px solid rgba(255,255,255,0.04);
     }
 
     @media (max-width: 768px) {
@@ -594,20 +764,41 @@
       .hero { padding: 100px 20px 60px; }
       .hero-buttons { flex-direction: column; }
       .stats { flex-direction: column; gap: 24px; }
+      .robot-head { transform: scale(0.7); }
+      .robot-body { transform: scale(0.7); }
+      .robot-arms { transform: scale(0.7); }
     }
   </style>
 </head>
 <body>
+  <div class="ambient-glow"></div>
+
   <div id="robot-bg">
-    <div class="robot">
+    <div class="robot-container">
       <div class="robot-head" id="robotHead">
-        <div class="robot-face">
-          <div class="eye" id="eyeLeft"><div class="pupil"></div></div>
-          <div class="eye" id="eyeRight"><div class="pupil"></div></div>
+        <div class="head-top"></div>
+        <div class="head-main">
+          <div class="face-panel">
+            <div class="eye" id="eyeLeft">
+              <div class="pupil" id="pupilLeft"></div>
+              <div class="eye-glow"></div>
+            </div>
+            <div class="eye" id="eyeRight">
+              <div class="pupil" id="pupilRight"></div>
+              <div class="eye-glow"></div>
+            </div>
+          </div>
+          <div class="mouth"></div>
         </div>
       </div>
-      <div class="robot-neck"></div>
+
+      <div class="robot-neck">
+        <div class="neck-joint"></div>
+      </div>
+
       <div class="robot-body">
+        <div class="body-highlight"></div>
+        <div class="body-reflection"></div>
         <div class="chest-logo"></div>
         <div class="chest-lines">
           <div class="chest-line"></div>
@@ -615,11 +806,28 @@
           <div class="chest-line"></div>
           <div class="chest-line"></div>
           <div class="chest-line"></div>
+          <div class="chest-line"></div>
         </div>
+        <div class="chest-panel"></div>
       </div>
-      <div class="robot-shoulders">
-        <div class="arm"><div class="arm-top"></div></div>
-        <div class="arm"><div class="arm-top"></div></div>
+
+      <div class="robot-arms">
+        <div class="arm">
+          <div class="shoulder"></div>
+          <div class="shoulder-joint"></div>
+          <div class="upper-arm"></div>
+          <div class="elbow-joint"></div>
+          <div class="forearm"></div>
+          <div class="hand"></div>
+        </div>
+        <div class="arm">
+          <div class="shoulder"></div>
+          <div class="shoulder-joint"></div>
+          <div class="upper-arm"></div>
+          <div class="elbow-joint"></div>
+          <div class="forearm"></div>
+          <div class="hand"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -718,18 +926,9 @@
         <p>Somos un equipo enfocado en hacer que la inteligencia artificial sea accesible para cualquier negocio. No vendemos promesas vacías — implementamos soluciones reales que generan resultados medibles.</p>
         <p>Cada proyecto es único. Analizamos tu caso de uso, diseñamos la solución y la implementamos con los mejores estándares de calidad.</p>
         <div class="stats">
-          <div class="stat">
-            <h3>50+</h3>
-            <p>Proyectos entregados</p>
-          </div>
-          <div class="stat">
-            <h3>98%</h3>
-            <p>Clientes satisfechos</p>
-          </div>
-          <div class="stat">
-            <h3>24h</h3>
-            <p>Tiempo de respuesta</p>
-          </div>
+          <div class="stat"><h3>50+</h3><p>Proyectos entregados</p></div>
+          <div class="stat"><h3>98%</h3><p>Clientes satisfechos</p></div>
+          <div class="stat"><h3>24h</h3><p>Tiempo de respuesta</p></div>
         </div>
       </div>
     </section>
@@ -754,35 +953,31 @@
 
   <script>
     const robotHead = document.getElementById('robotHead');
-    const eyeLeft = document.getElementById('eyeLeft');
-    const eyeRight = document.getElementById('eyeRight');
-    const pupils = document.querySelectorAll('.pupil');
+    const pupilLeft = document.getElementById('pupilLeft');
+    const pupilRight = document.getElementById('pupilRight');
 
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
 
     document.addEventListener('mousemove', (e) => {
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      targetX = (e.clientX - centerX) / centerX;
-      targetY = (e.clientY - centerY) / centerY;
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      targetX = (e.clientX - cx) / cx;
+      targetY = (e.clientY - cy) / cy;
     });
 
     function animate() {
-      currentX += (targetX - currentX) * 0.08;
-      currentY += (targetY - currentY) * 0.08;
+      currentX += (targetX - currentX) * 0.06;
+      currentY += (targetY - currentY) * 0.06;
 
-      const headRotateX = currentY * 15;
-      const headRotateY = currentX * 20;
-      robotHead.style.transform = `perspective(500px) rotateX(${-headRotateX}deg) rotateY(${headRotateY}deg)`;
+      const rx = currentY * 12;
+      const ry = currentX * 18;
+      robotHead.style.transform = `perspective(800px) rotateX(${-rx}deg) rotateY(${ry}deg)`;
 
-      const pupilOffsetX = currentX * 6;
-      const pupilOffsetY = currentY * 4;
-      pupils.forEach(pupil => {
-        pupil.style.transform = `translate(calc(-50% + ${pupilOffsetX}px), calc(-50% + ${pupilOffsetY}px))`;
-      });
+      const px = currentX * 7;
+      const py = currentY * 5;
+      pupilLeft.style.transform = `translate(calc(-50% + ${px}px), calc(-50% + ${py}px))`;
+      pupilRight.style.transform = `translate(calc(-50% + ${px}px), calc(-50% + ${py}px))`;
 
       requestAnimationFrame(animate);
     }
