@@ -563,7 +563,7 @@
       hand.castShadow = true;
       forearmGroup.add(hand);
 
-      const fingerGeo = new THREE.CapsuleGeometry(0.015, 0.1, 8, 8);
+      const fingerGeo = new THREE.CylinderGeometry(0.015, 0.015, 0.1, 8);
       const fingerMat = darkPanel;
       for (let f = -1; f <= 1; f++) {
         const finger = new THREE.Mesh(fingerGeo, fingerMat);
