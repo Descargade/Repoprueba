@@ -4,23 +4,30 @@ const ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
 let height = canvas.height = window.innerHeight;
 
-const mouse = { x: null, y: null, radius: 180 };
+const mouse = { x: null, y: null, radius: 200 };
 const particles = [];
-const PARTICLE_COUNT = 150;
-const CONNECTION_DISTANCE = 100;
+const PARTICLE_COUNT = 600;
+const CONNECTION_DISTANCE = 80;
 
 class Particle {
   constructor() {
     this.x = Math.random() * width;
     this.y = Math.random() * height;
-    this.vx = (Math.random() - 0.5) * 0.4;
-    this.vy = (Math.random() - 0.5) * 0.4;
-    this.radius = Math.random() * 1.8 + 0.4;
-    this.baseAlpha = Math.random() * 0.4 + 0.2;
+    this.z = Math.random() * 3 + 0.5;
+    this.vx = (Math.random() - 0.5) * 0.6;
+    this.vy = (Math.random() - 0.5) * 0.6;
+    this.baseRadius = Math.random() * 1.8 + 0.3;
+    this.radius = this.baseRadius;
+    this.baseAlpha = Math.random() * 0.6 + 0.2;
     this.alpha = this.baseAlpha;
+    this.pulse = Math.random() * Math.PI * 2;
+    this.pulseSpeed = Math.random() * 0.02 + 0.005;
   }
 
   update() {
+    this.pulse += this.pulseSpeed;
+    const pulseFactor = Math.sin(this.pulse) * 0.3 + 0.7;
+
     if (mouse.x !== null && mouse.y !== null) {
       const dx = mouse.x - this.x;
       const dy = mouse.y - this.y;
@@ -29,30 +36,50 @@ class Particle {
       if (dist < mouse.radius) {
         const force = (mouse.radius - dist) / mouse.radius;
         const angle = Math.atan2(dy, dx);
-        this.vx -= Math.cos(angle) * force * 0.03;
-        this.vy -= Math.sin(angle) * force * 0.03;
-        this.alpha = Math.min(1, this.baseAlpha + force * 0.6);
+        const pullStrength = force * 0.04;
+        this.vx += Math.cos(angle) * pullStrength;
+        this.vy += Math.sin(angle) * pullStrength;
+        this.alpha = Math.min(1, this.baseAlpha + force * 0.8);
+        this.radius = this.baseRadius + force * 2;
       } else {
-        this.alpha += (this.baseAlpha - this.alpha) * 0.05;
+        this.alpha += (this.baseAlpha * pulseFactor - this.alpha) * 0.08;
+        this.radius += (this.baseRadius * pulseFactor - this.radius) * 0.05;
       }
+    } else {
+      this.alpha += (this.baseAlpha * pulseFactor - this.alpha) * 0.05;
+      this.radius += (this.baseRadius * pulseFactor - this.radius) * 0.03;
     }
 
     this.x += this.vx;
     this.y += this.vy;
 
-    this.vx *= 0.99;
-    this.vy *= 0.99;
+    this.vx *= 0.985;
+    this.vy *= 0.985;
 
-    if (this.x < 0) this.x = width;
-    if (this.x > width) this.x = 0;
-    if (this.y < 0) this.y = height;
-    if (this.y > height) this.y = 0;
+    if (this.x < -10) this.x = width + 10;
+    if (this.x > width + 10) this.x = -10;
+    if (this.y < -10) this.y = height + 10;
+    if (this.y > height + 10) this.y = -10;
   }
 
   draw() {
+    const glowRadius = this.radius * 4;
+    const gradient = ctx.createRadialGradient(
+      this.x, this.y, 0,
+      this.x, this.y, glowRadius
+    );
+    gradient.addColorStop(0, `rgba(200, 220, 255, ${this.alpha})`);
+    gradient.addColorStop(0.3, `rgba(160, 190, 255, ${this.alpha * 0.5})`);
+    gradient.addColorStop(1, `rgba(100, 140, 255, 0)`);
+
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, glowRadius, 0, Math.PI * 2);
+    ctx.fillStyle = gradient;
+    ctx.fill();
+
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(140, 170, 255, ${this.alpha})`;
+    ctx.fillStyle = `rgba(230, 240, 255, ${this.alpha})`;
     ctx.fill();
   }
 }
@@ -72,11 +99,18 @@ function drawConnections() {
       const dist = Math.sqrt(dx * dx + dy * dy);
 
       if (dist < CONNECTION_DISTANCE) {
-        const alpha = (1 - dist / CONNECTION_DISTANCE) * 0.25;
+        const alpha = (1 - dist / CONNECTION_DISTANCE) * 0.2;
+        const gradient = ctx.createLinearGradient(
+          particles[i].x, particles[i].y,
+          particles[j].x, particles[j].y
+        );
+        gradient.addColorStop(0, `rgba(150, 180, 255, ${alpha * particles[i].alpha})`);
+        gradient.addColorStop(1, `rgba(150, 180, 255, ${alpha * particles[j].alpha})`);
+
         ctx.beginPath();
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.strokeStyle = `rgba(100, 140, 255, ${alpha})`;
+        ctx.strokeStyle = gradient;
         ctx.lineWidth = 0.4;
         ctx.stroke();
       }
