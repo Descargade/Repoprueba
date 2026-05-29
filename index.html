@@ -11,19 +11,211 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: radial-gradient(ellipse at center, #0a0a1a 0%, #000005 70%, #000000 100%);
+      background: #000;
       color: #e0e0e0;
       overflow-x: hidden;
     }
 
-    #spline-bg {
+    #robot-bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       z-index: 0;
-      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .robot {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translateY(10%);
+    }
+
+    .robot-head {
+      position: relative;
+      width: 180px;
+      height: 200px;
+      background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%);
+      border-radius: 90px 90px 70px 70px;
+      box-shadow: 0 0 60px rgba(100, 140, 255, 0.15), inset 0 -20px 40px rgba(0,0,0,0.5);
+      transition: transform 0.1s ease-out;
+      transform-origin: center bottom;
+    }
+
+    .robot-head::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 20px;
+      background: linear-gradient(180deg, #2a2a4e, #1a1a2e);
+      border-radius: 30px 30px 0 0;
+    }
+
+    .robot-face {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 80px;
+      background: linear-gradient(180deg, #111122 0%, #0a0a18 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+    }
+
+    .eye {
+      width: 36px;
+      height: 20px;
+      background: radial-gradient(ellipse at center, #00d4ff 0%, #0088cc 40%, #004466 80%, transparent 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(0, 212, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .eye::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #fff;
+    }
+
+    .pupil {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle, #fff 0%, #00d4ff 60%, transparent 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
+      transform: translate(-50%, -50%);
+    }
+
+    .robot-neck {
+      width: 50px;
+      height: 30px;
+      background: linear-gradient(180deg, #1a1a2e, #0d0d1a);
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .robot-body {
+      position: relative;
+      width: 220px;
+      height: 260px;
+      background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 50%, #0a0a15 100%);
+      border-radius: 30px 30px 20px 20px;
+      box-shadow: 0 10px 60px rgba(0,0,0,0.8), 0 0 80px rgba(100, 140, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .robot-body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(180deg, rgba(30, 30, 60, 0.4), transparent);
+      border-radius: 30px 30px 0 0;
+    }
+
+    .chest-logo {
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #ff6b9d, #c44dff, #6e8efb, #00d4ff, #ff6b9d);
+      box-shadow: 0 0 30px rgba(110, 142, 251, 0.5);
+      animation: logoSpin 8s linear infinite;
+    }
+
+    .chest-logo::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background: #0d0d1a;
+      border-radius: 50%;
+    }
+
+    @keyframes logoSpin {
+      from { transform: translateX(-50%) rotate(0deg); }
+      to { transform: translateX(-50%) rotate(360deg); }
+    }
+
+    .chest-lines {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .chest-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(100, 140, 255, 0.3), transparent);
+      border-radius: 1px;
+    }
+
+    .robot-shoulders {
+      display: flex;
+      justify-content: space-between;
+      width: 320px;
+      margin-top: -240px;
+      pointer-events: none;
+    }
+
+    .arm {
+      width: 45px;
+      height: 180px;
+      background: linear-gradient(180deg, #1a1a2e, #0d0d1a, #0a0a15);
+      border-radius: 22px;
+      box-shadow: 0 5px 30px rgba(0,0,0,0.6);
+    }
+
+    .arm-top {
+      height: 50px;
+      background: linear-gradient(180deg, #222244, #1a1a2e);
+      border-radius: 22px 22px 0 0;
+    }
+
+    @media (max-width: 768px) {
+      .robot-head { width: 120px; height: 140px; border-radius: 60px 60px 50px 50px; }
+      .robot-face { width: 90px; height: 55px; top: 40px; gap: 20px; }
+      .eye { width: 24px; height: 14px; }
+      .robot-body { width: 150px; height: 180px; }
+      .robot-shoulders { width: 220px; margin-top: -170px; }
+      .arm { width: 30px; height: 120px; }
+      .chest-logo { width: 35px; height: 35px; top: 25px; }
     }
 
     .content {
@@ -159,7 +351,6 @@
 
     .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
 
-    /* SECCIONES */
     section {
       padding: 100px 60px;
     }
@@ -180,7 +371,6 @@
       font-size: 1.05rem;
     }
 
-    /* SERVICIOS */
     .services-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -226,7 +416,6 @@
       line-height: 1.6;
     }
 
-    /* PRECIOS */
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -249,9 +438,7 @@
       background: rgba(110, 142, 251, 0.05);
     }
 
-    .price-card:hover {
-      transform: translateY(-4px);
-    }
+    .price-card:hover { transform: translateY(-4px); }
 
     .price-tag {
       font-size: 3rem;
@@ -330,7 +517,6 @@
 
     .price-btn.outline:hover { background: rgba(255, 255, 255, 0.05); }
 
-    /* ABOUT */
     .about-content {
       max-width: 700px;
       margin: 0 auto;
@@ -365,7 +551,6 @@
       margin-top: 4px;
     }
 
-    /* CONTACT */
     .contact-form {
       max-width: 500px;
       margin: 0 auto;
@@ -394,7 +579,6 @@
 
     .contact-form textarea { resize: vertical; min-height: 120px; }
 
-    /* FOOTER */
     footer {
       text-align: center;
       padding: 40px 20px;
@@ -403,7 +587,6 @@
       border-top: 1px solid rgba(255, 255, 255, 0.04);
     }
 
-    /* RESPONSIVE */
     @media (max-width: 768px) {
       nav { padding: 16px 24px; }
       .nav-links { display: none; }
@@ -415,7 +598,31 @@
   </style>
 </head>
 <body>
-  <iframe id="spline-bg" src="https://app.spline.design/community/file/ba53829f-ad48-4917-8f81-26676a7048c9"></iframe>
+  <div id="robot-bg">
+    <div class="robot">
+      <div class="robot-head" id="robotHead">
+        <div class="robot-face">
+          <div class="eye" id="eyeLeft"><div class="pupil"></div></div>
+          <div class="eye" id="eyeRight"><div class="pupil"></div></div>
+        </div>
+      </div>
+      <div class="robot-neck"></div>
+      <div class="robot-body">
+        <div class="chest-logo"></div>
+        <div class="chest-lines">
+          <div class="chest-line"></div>
+          <div class="chest-line"></div>
+          <div class="chest-line"></div>
+          <div class="chest-line"></div>
+          <div class="chest-line"></div>
+        </div>
+      </div>
+      <div class="robot-shoulders">
+        <div class="arm"><div class="arm-top"></div></div>
+        <div class="arm"><div class="arm-top"></div></div>
+      </div>
+    </div>
+  </div>
 
   <div class="content">
     <nav>
@@ -545,5 +752,42 @@
     </footer>
   </div>
 
+  <script>
+    const robotHead = document.getElementById('robotHead');
+    const eyeLeft = document.getElementById('eyeLeft');
+    const eyeRight = document.getElementById('eyeRight');
+    const pupils = document.querySelectorAll('.pupil');
+
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      targetX = (e.clientX - centerX) / centerX;
+      targetY = (e.clientY - centerY) / centerY;
+    });
+
+    function animate() {
+      currentX += (targetX - currentX) * 0.08;
+      currentY += (targetY - currentY) * 0.08;
+
+      const headRotateX = currentY * 15;
+      const headRotateY = currentX * 20;
+      robotHead.style.transform = `perspective(500px) rotateX(${-headRotateX}deg) rotateY(${headRotateY}deg)`;
+
+      const pupilOffsetX = currentX * 6;
+      const pupilOffsetY = currentY * 4;
+      pupils.forEach(pupil => {
+        pupil.style.transform = `translate(calc(-50% + ${pupilOffsetX}px), calc(-50% + ${pupilOffsetY}px))`;
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
 </body>
 </html>
